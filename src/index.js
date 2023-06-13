@@ -9,10 +9,12 @@ import { Provider as ProductsProvider } from "./products/context";
 import Layout from "./app/layout/Layout";
 import HomeScreen from "./app/screens/Home";
 
+import theme from "./theme";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <UserProvider>
         <ProductsProvider>
           <Layout>

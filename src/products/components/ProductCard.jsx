@@ -1,13 +1,30 @@
-import React, { useContext, useState } from 'react'
-import { Box, Button, Card, CardBody, Divider, Flex, Image, Stack, Text } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { Box, Button, Card, CardBody, Divider, Flex, Image, Stack, Text, useToast } from '@chakra-ui/react'
+import "./ProductCard.css"
+import coin from '../../assets/icons/coin.svg'
 
-import { UserContext } from '../../user/context'
+import { useRedeem, useUser } from '../../user/hooks'
 
 function ProductCard({ product }) {
-    const { user } = useContext(UserContext)
+    const [user] = useUser()
+    const redeemProduct = useRedeem()
     const [hover, setHover] = useState(false)
-
     const canBuy = product.cost <= user.points
+    const toast = useToast()
+
+    function handleRedeem(product) {
+        if (!canBuy) return
+
+        redeemProduct(product)
+        toast({
+            title: `Redeemed ${product.name}`,
+            description: `You've successfully redeemed ${product.name} for ${product.cost} points`,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: 'bottom-left'
+        })
+    }
 
     return (
         <Card opacity={canBuy ? 1 : 0.5} onPointerOver={() => setHover(true)} onPointerOut={() => setHover(false)}>
@@ -30,21 +47,38 @@ function ProductCard({ product }) {
                         left={0}
                         zIndex={2}>
                         <Box
-                            bgColor={'orange'}
+                            bgColor={'cyan.500'}
                             height={'100%'}
                             width={'100%'}
                             opacity={0.7}
                             position={'absolute'}
                         />
                         <Stack spacing={6} zIndex={3}>
-                            {canBuy && <Button>Redeem Now</Button>}
-                            {!canBuy && <Text color={'white'} fontSize={'3xl'}>You need {product.cost - user.points} points to redeem</Text>}
+                            {canBuy &&
+                                <Stack>
+                                    <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
+                                        <Text color={'white'} fontSize={'4xl'} textShadow={'3px 3px 3px black'}>{product.cost}</Text>
+                                        <Image h={8} w={8} src={coin} marginTop={2} />
+                                    </Stack>
+
+                                    <Button className='card-btn' bgColor={'white'} onClick={() => handleRedeem(product)}>Redeem Now</Button>
+                                </Stack>
+                            }
+                            {!canBuy &&
+                                <Stack>
+                                    <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
+                                        <Text color={'white'} fontSize={'3xl'} textShadow={'3px 3px 3px black'}>You need {product.cost - user.points}</Text>
+                                        <Image h={8} w={8} src={coin} marginTop={1} />
+                                    </Stack>
+                                    <Text color={'white'} fontSize={'3xl'} textShadow={'3px 3px 3px black'}>more to redeem</Text>
+                                </Stack>
+                            }
                         </Stack>
                     </Flex>
                 }
 
             </CardBody>
-        </Card>
+        </Card >
     )
 }
 

@@ -1,13 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { fetchUser } from './api'
+import { fetchUser, addPoints } from './api'
 import { Center, CircularProgress } from '@chakra-ui/react'
+import { redeemProduct } from '../products/api'
 
 const UserContext = createContext()
 
 function UserProvider({ children }) {
     const [user, setUser] = useState()
     const [status, setStatus] = useState('pending')
-
 
     useEffect(() => {
         const fetchUserData = (async () => {
@@ -19,6 +19,23 @@ function UserProvider({ children }) {
         fetchUserData();
     }, [])
 
+    async function handleAddPoints(amount) {
+        if (!user) return;
+
+        return addPoints(amount).then(() => {
+            setUser({ ...user, points: user.points + amount })
+        })
+    }
+
+
+    async function handleRedeemProduct(product) {
+        if (!user) return
+
+        return redeemProduct(product._id).then(() => {
+            setUser({ ...user, points: user.points - product.cost })
+        })
+    }
+
     if (!user || status === "pending") {
         return (
             <Center>
@@ -27,8 +44,16 @@ function UserProvider({ children }) {
         )
     }
 
+    const state = {
+        user,
+    }
+    const actions = {
+        addPoints: handleAddPoints,
+        redeemProduct: handleRedeemProduct,
+    }
+
     return (
-        <UserContext.Provider value={{ user }}>
+        <UserContext.Provider value={{ state, actions }}>
             {children}
         </UserContext.Provider>
     )

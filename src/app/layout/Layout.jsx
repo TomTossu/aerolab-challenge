@@ -8,7 +8,7 @@ function Layout({ children }) {
         <Flex direction="column">
             <Navbar />
             <Center paddingY={6}>
-                <Container maxWidth={'6xl'}>
+                <Container maxWidth={'9xl'}>
                     {children}
                 </Container>
             </Center>

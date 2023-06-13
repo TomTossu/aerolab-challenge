@@ -19,6 +19,7 @@ function ProductsProvider({ children }) {
         fetchProducts()
     }, [])
 
+
     if (!products || status === "pending") {
         return (
             <Center>

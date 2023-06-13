@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Heading, Stack } from '@chakra-ui/react'
+import { Flex, Heading, Image, Stack } from '@chakra-ui/react'
 import header from "../../assets/header.png"
 
 import ProductList from '../../products/components/ProductList'
@@ -13,10 +13,10 @@ function HomeScreen() {
                 bgSize={'cover'}
                 bgImage={`url(${header})`}
                 borderRadius={'md'}
-                minHeight={64}
+                minHeight={'lg'}
                 padding={6}
             >
-                <Heading color={'white'} fontSize={'4xl'}>Electronics</Heading>
+                <Heading color={'white'} fontSize={'7xl'} textShadow={'3px 3px 3px orange'}>Electronics</Heading>
             </Flex>
             <ProductList />
         </Stack>

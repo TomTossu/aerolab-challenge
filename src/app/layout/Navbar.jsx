@@ -35,7 +35,6 @@ function Navbar() {
                         <Image h={6} w={6} src={coin} />
                     </Stack>
                 </Stack>
-
             </Stack>
         </Box>
     )

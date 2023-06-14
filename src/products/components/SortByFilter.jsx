@@ -5,7 +5,7 @@ import { FILTERS_VALUES } from '../constants/constants'
 
 const FILTERS = [FILTERS_VALUES.MostRecent, FILTERS_VALUES.LowestPrice, FILTERS_VALUES.HighestPrice]
 
-function Filter({ active, onChange }) {
+function SortByFilter({ active, onChange }) {
     return (
         <Stack direction={'row'} spacing={6} alignItems={'center'} justifyContent={'center'}>
             <Text color={'gray.500'}>Sort by:</Text>
@@ -30,4 +30,4 @@ function Filter({ active, onChange }) {
     )
 }
 
-export default Filter
+export default SortByFilter

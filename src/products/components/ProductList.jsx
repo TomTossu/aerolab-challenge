@@ -4,32 +4,41 @@ import { ProductsContext } from '../context'
 
 import Grid from './Grid'
 import Count from './Count'
-import Filter from './Filter'
+import SortByFilter from './SortByFilter'
 import { Divider, Stack } from '@chakra-ui/react'
-import { FILTERS_VALUES } from '../constants/constants'
+import { FILTERS_VALUES, CATEGORIES_VALUES } from '../constants/constants'
+import CategoryFilter from './CategoryFilter'
 
 function ProductList() {
     const { products } = useContext(ProductsContext)
     const [filter, setFilter] = useState(FILTERS_VALUES.MostRecent)
+    const [category, setCategory] = useState(CATEGORIES_VALUES.AllProducts)
+    const [filteredProducts, setFilteredProducts] = useState([...products])
 
-    const filteredProducts = useMemo(() => {
+    useMemo(() => {
         switch (filter) {
             case FILTERS_VALUES.HighestPrice: {
-                return [...products].sort((a, b) => b.cost - a.cost)
+                return setFilteredProducts([...products].sort((a, b) => b.cost - a.cost))
             }
 
             case FILTERS_VALUES.LowestPrice: {
-                return [...products].sort((a, b) => a.cost - b.cost)
+                return setFilteredProducts([...products].sort((a, b) => a.cost - b.cost))
             }
 
             case FILTERS_VALUES.MostRecent:
             default: {
-                return products
+                return setFilteredProducts(products)
             }
         }
-
-
     }, [filter, products])
+
+    useMemo(() => {
+        if (category === CATEGORIES_VALUES.AllProducts) {
+            return setFilteredProducts(products)
+        }
+
+        return setFilteredProducts([...products].filter(product => product.category === category))
+    }, [category, products])
 
     return (
         <Stack alignItems={'flex-start'} spacing={6}>
@@ -42,8 +51,8 @@ function ProductList() {
                 spacing={6}
                 width={'100%'}
             >
-                <Count products={filteredProducts} />
-                <Filter active={filter} onChange={setFilter} products={filteredProducts} />
+                <CategoryFilter onChange={setCategory} />
+                <SortByFilter active={filter} onChange={setFilter} />
             </Stack>
             <Divider borderColor={'gray.300'} />
             <Grid products={filteredProducts} />

@@ -34,7 +34,7 @@ function PointsMenu({ user, points, addPoints }) {
                 <Divider borderColor={useColorModeValue('black', 'white')} w={'16rem'} />
                 <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} margin={2} >
                     {FILTERS.map((point) => (
-                        <PointsButton point={point} selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} />
+                        <PointsButton key={point} point={point} selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} />
                     ))}
                 </Stack>
                 <Button

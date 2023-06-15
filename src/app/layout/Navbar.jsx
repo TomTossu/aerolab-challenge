@@ -21,7 +21,6 @@ function Navbar() {
                         {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                     </Button>
                     <PointsMenu user={user} points={points} addPoints={addPoints} />
-                    {/* <UserMenu /> */}
                 </Stack>
             </Stack>
         </Box>

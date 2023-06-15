@@ -8,8 +8,8 @@ function Grid({ products }) {
     return (
         <Container maxWidth={'7xl'}>
             <ChakraGrid templateColumns={'repeat(auto-fill, minmax(256px,1fr))'} gap={6}>
-                {products.map((product) => (
-                    <ProductCard key={product._id} product={product} />
+                {products.map((product, index) => (
+                    <ProductCard key={`${product._id}_${index}`} product={product} />
                 ))}
             </ChakraGrid >
         </Container>

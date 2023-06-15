@@ -18,7 +18,7 @@ function HomeScreen() {
             >
                 <Heading color={'white'} fontSize={'7xl'} textShadow={'3px 3px 3px orange'}>Electronics</Heading>
             </Flex>
-            <ProductList />
+            <ProductList screen={"homescreen"} />
         </Stack>
     )
 }

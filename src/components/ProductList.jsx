@@ -8,15 +8,26 @@ import SortByFilter from './SortByFilter'
 import { Divider, Stack } from '@chakra-ui/react'
 import { FILTERS_VALUES, CATEGORIES_VALUES } from '../products/constants/constants'
 import CategoryFilter from './CategoryFilter'
+import { useUser } from '../user/hooks'
 
-function ProductList() {
+function ProductList({ screen }) {
+    const [user] = useUser()
     const { products } = useContext(ProductsContext)
+
+    const productsArray = useMemo(() => {
+        const PRODUCT_OPTIONS = {
+            history: [...user.redeemHistory],
+            homescreen: [...products]
+        }
+        return PRODUCT_OPTIONS[screen]
+    }, [screen, user, products])
+
     const [filter, setFilter] = useState(FILTERS_VALUES.MostRecent)
     const [category, setCategory] = useState(CATEGORIES_VALUES.AllProducts)
-    const [filteredProducts, setFilteredProducts] = useState([...products])
+    const [filteredProducts, setFilteredProducts] = useState(productsArray)
 
     useMemo(() => {
-        let newProductsArr = [...products]
+        let newProductsArr = [...productsArray]
 
         if (category !== CATEGORIES_VALUES.AllProducts) {
             newProductsArr = [...newProductsArr].filter(product => product.category === category)
@@ -41,7 +52,7 @@ function ProductList() {
         }
 
         setFilteredProducts(newProductsArr)
-    }, [filter, category, products])
+    }, [filter, category, productsArray])
 
     return (
         <Stack alignItems={'flex-start'} spacing={6}>

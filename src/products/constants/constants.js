@@ -19,3 +19,9 @@ export const CATEGORIES_VALUES = {
   SmartHome: "Smart Home",
   TabletsEreaders: "Tablets & E-readers",
 };
+
+export const POINTS_VALUES = {
+  First: 1000,
+  Second: 5000,
+  Third: 7500,
+};

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Box, Button, Image, Stack, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, Image, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import logo from '../../assets/logo.svg'
-import coin from '../../assets/icons/coin.svg'
 
 import { usePoints, useUser } from '../../user/hooks'
+import PointsMenu from '../../components/PointsMenu'
 
 
 function Navbar() {
@@ -20,20 +20,8 @@ function Navbar() {
                     <Button bg={colorMode} onClick={toggleColorMode}>
                         {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                     </Button>
-                    <Text>{user.name}</Text>
-                    <Stack
-                        alignItems={'center'}
-                        direction={'row'}
-                        cursor={'pointer'}
-                        borderRadius={9999}
-                        bgColor={useColorModeValue('gray.100', 'gray.700')}
-                        paddingY={2}
-                        paddingX={3}
-                        onClick={() => addPoints(1000)}
-                    >
-                        <Text fontWeight={500}>{points}</Text>
-                        <Image h={6} w={6} src={coin} />
-                    </Stack>
+                    <PointsMenu user={user} points={points} addPoints={addPoints} />
+                    {/* <UserMenu /> */}
                 </Stack>
             </Stack>
         </Box>

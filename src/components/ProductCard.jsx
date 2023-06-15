@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Box, Button, Card, CardBody, Divider, Flex, Image, Stack, Text, useToast } from '@chakra-ui/react'
-import "./ProductCard.css"
-import coin from '../../assets/icons/coin.svg'
+import coin from '../assets/icons/coin.svg'
 
-import { useRedeem, useUser } from '../../user/hooks'
+import { useRedeem, useUser } from '../user/hooks'
 
 function ProductCard({ product }) {
     const [user] = useUser()
@@ -61,7 +60,7 @@ function ProductCard({ product }) {
                                         <Image h={8} w={8} src={coin} marginTop={2} />
                                     </Stack>
 
-                                    <Button className='card-btn' bgColor={'white'} onClick={() => handleRedeem(product)}>Redeem Now</Button>
+                                    <Button colorScheme={'orange'} onClick={() => handleRedeem(product)}>Redeem Now</Button>
                                 </Stack>
                             }
                             {!canBuy &&

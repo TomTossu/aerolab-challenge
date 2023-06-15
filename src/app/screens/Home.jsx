@@ -1,8 +1,8 @@
 import React from 'react'
-import { Flex, Heading, Image, Stack } from '@chakra-ui/react'
+import { Flex, Heading, Stack } from '@chakra-ui/react'
 import header from "../../assets/header.png"
 
-import ProductList from '../../products/components/ProductList'
+import ProductList from '../../components/ProductList'
 
 function HomeScreen() {
     return (

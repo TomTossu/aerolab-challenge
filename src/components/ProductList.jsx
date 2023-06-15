@@ -1,12 +1,12 @@
 import React, { useContext, useMemo, useState } from 'react'
 
-import { ProductsContext } from '../context'
+import { ProductsContext } from '../products/context'
 
 import Grid from './Grid'
 import Count from './Count'
 import SortByFilter from './SortByFilter'
 import { Divider, Stack } from '@chakra-ui/react'
-import { FILTERS_VALUES, CATEGORIES_VALUES } from '../constants/constants'
+import { FILTERS_VALUES, CATEGORIES_VALUES } from '../products/constants/constants'
 import CategoryFilter from './CategoryFilter'
 
 function ProductList() {
@@ -16,29 +16,32 @@ function ProductList() {
     const [filteredProducts, setFilteredProducts] = useState([...products])
 
     useMemo(() => {
+        let newProductsArr = [...products]
+
+        if (category !== CATEGORIES_VALUES.AllProducts) {
+            newProductsArr = [...newProductsArr].filter(product => product.category === category)
+        }
+
         switch (filter) {
             case FILTERS_VALUES.HighestPrice: {
-                return setFilteredProducts([...products].sort((a, b) => b.cost - a.cost))
+                newProductsArr = [...newProductsArr].sort((a, b) => b.cost - a.cost)
+                break
             }
 
             case FILTERS_VALUES.LowestPrice: {
-                return setFilteredProducts([...products].sort((a, b) => a.cost - b.cost))
+                newProductsArr = [...newProductsArr].sort((a, b) => a.cost - b.cost)
+                break
             }
 
             case FILTERS_VALUES.MostRecent:
             default: {
-                return setFilteredProducts(products)
+                newProductsArr = [...newProductsArr]
+                break
             }
         }
-    }, [filter, products])
 
-    useMemo(() => {
-        if (category === CATEGORIES_VALUES.AllProducts) {
-            return setFilteredProducts(products)
-        }
-
-        return setFilteredProducts([...products].filter(product => product.category === category))
-    }, [category, products])
+        setFilteredProducts(newProductsArr)
+    }, [filter, category, products])
 
     return (
         <Stack alignItems={'flex-start'} spacing={6}>

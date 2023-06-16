@@ -1,16 +1,14 @@
 export const getProducts = async () => {
+  const URL = "https://coding-challenge-api.aerolab.co/products";
+
   try {
-    const response = await fetch(
-      "https://coding-challenge-api.aerolab.co/products",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgzODVlYTE3NzA5MTAwMjAyZDI1OTMiLCJpYXQiOjE2ODYzNDEwOTh9.ZE-ij3cOXLaoDmWeSv4Mxqje7mD8gQ2SDkljhWgxCQc",
-        },
-      }
-    );
+    const response = await fetch(URL, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: process.env.REACT_APP_API_KEY,
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Invalid request");
@@ -34,8 +32,7 @@ export const redeemProduct = async (productId) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgzODVlYTE3NzA5MTAwMjAyZDI1OTMiLCJpYXQiOjE2ODYzNDEwOTh9.ZE-ij3cOXLaoDmWeSv4Mxqje7mD8gQ2SDkljhWgxCQc",
+          Authorization: process.env.REACT_APP_API_KEY,
         },
         body: JSON.stringify({ productId: productId }),
       }

@@ -3,16 +3,24 @@ import React, { useContext, useMemo, useState } from 'react'
 import { ProductsContext } from '../products/context'
 
 import Grid from './Grid'
-import Count from './Count'
 import SortByFilter from './SortByFilter'
-import { Divider, Stack } from '@chakra-ui/react'
+import { Divider, Stack, Text } from '@chakra-ui/react'
 import { SORT_VALUES, CATEGORIES_VALUES } from '../products/constants/constants'
 import CategoryFilter from './CategoryFilter'
 import { useUser } from '../user/hooks'
 
+const sortFunctions = {
+    [SORT_VALUES.HighestPrice]: (a, b) => b.cost - a.cost,
+    [SORT_VALUES.LowestPrice]: (a, b) => a.cost - b.cost,
+    [SORT_VALUES.NewestFirst]: (a, b) => new Date(b.createDate) - new Date(a.createDate),
+    [SORT_VALUES.OldestFirst]: (a, b) => new Date(a.createDate) - new Date(b.createDate)
+}
+
 function ProductList({ screen }) {
     const [user] = useUser()
     const { products } = useContext(ProductsContext)
+    const [filter, setFilter] = useState()
+    const [category, setCategory] = useState(CATEGORIES_VALUES.AllProducts)
 
     const productsArray = useMemo(() => {
         const PRODUCT_OPTIONS = {
@@ -22,9 +30,8 @@ function ProductList({ screen }) {
         return PRODUCT_OPTIONS[screen]
     }, [screen, user, products])
 
-    const [filter, setFilter] = useState()
-    const [category, setCategory] = useState(CATEGORIES_VALUES.AllProducts)
     const [filteredProducts, setFilteredProducts] = useState(productsArray)
+
 
     useMemo(() => {
         let newProductsArr = [...productsArray]
@@ -33,35 +40,16 @@ function ProductList({ screen }) {
             newProductsArr = [...newProductsArr].filter(product => product.category === category)
         }
 
-        switch (filter) {
-            case SORT_VALUES.HighestPrice: {
-                newProductsArr = [...newProductsArr].sort((a, b) => b.cost - a.cost)
-                break
-            }
+        const sortFunction = sortFunctions[filter]
 
-            case SORT_VALUES.LowestPrice: {
-                newProductsArr = [...newProductsArr].sort((a, b) => a.cost - b.cost)
-                break
-            }
-
-            case SORT_VALUES.NewestFirst: {
-                newProductsArr = [...newProductsArr].sort((a, b) => new Date(b.createDate) - new Date(a.createDate))
-                break
-            }
-
-            case SORT_VALUES.OldestFirst: {
-                newProductsArr = [...newProductsArr].sort((a, b) => new Date(a.createDate) - new Date(b.createDate))
-                break
-            }
-
-            default: {
-                newProductsArr = [...newProductsArr]
-            }
+        if (sortFunction) {
+            newProductsArr = [...newProductsArr].sort(sortFunction)
+        } else {
+            newProductsArr = [...newProductsArr]
         }
 
-        console.log(newProductsArr)
         setFilteredProducts(newProductsArr)
-    }, [filter, category, productsArray])
+    }, [productsArray, category, filter])
 
     return (
         <Stack alignItems={'flex-start'} spacing={6}>
@@ -79,7 +67,7 @@ function ProductList({ screen }) {
             </Stack>
             <Divider borderColor={'gray.300'} />
             <Grid products={filteredProducts} screen={screen} />
-            <Count products={filteredProducts} />
+            <Text>{products.length} of {products.length}</Text>
         </Stack >
     )
 }

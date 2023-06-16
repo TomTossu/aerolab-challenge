@@ -6,8 +6,7 @@ export const fetchUser = async () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgzODVlYTE3NzA5MTAwMjAyZDI1OTMiLCJpYXQiOjE2ODYzNDEwOTh9.ZE-ij3cOXLaoDmWeSv4Mxqje7mD8gQ2SDkljhWgxCQc",
+          Authorization: process.env.REACT_APP_API_KEY,
         },
       }
     );
@@ -34,8 +33,7 @@ export const addPoints = async (amount) => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgzODVlYTE3NzA5MTAwMjAyZDI1OTMiLCJpYXQiOjE2ODYzNDEwOTh9.ZE-ij3cOXLaoDmWeSv4Mxqje7mD8gQ2SDkljhWgxCQc",
+          Authorization: process.env.REACT_APP_API_KEY,
         },
         body: JSON.stringify({ amount: amount }),
       }

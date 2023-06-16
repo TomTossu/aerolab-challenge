@@ -1,13 +1,8 @@
 import { Card, CardBody, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
+import { formatDates } from '../utils/utils';
 
 function HistoryCard({ product }) {
-    const formattedDate = new Date(product.createDate).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-    });
-
     return (
         <Card direction={'row'} overflow='hidden'>
             <Image
@@ -25,7 +20,7 @@ function HistoryCard({ product }) {
                         Category: {product.category}
                     </Text>
                     <Text paddingY={2} fontSize={20}>
-                        Redeemed on: {formattedDate}
+                        Redeemed on: {formatDates(product.createDate)}
                     </Text>
                 </CardBody>
             </Stack>

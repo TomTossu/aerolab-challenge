@@ -1,5 +1,6 @@
-export const FILTERS_VALUES = {
-  MostRecent: "Most Recent",
+export const SORT_VALUES = {
+  NewestFirst: "Newest First",
+  OldestFirst: "Oldest First",
   LowestPrice: "Lowest Price",
   HighestPrice: "Highest Price",
 };

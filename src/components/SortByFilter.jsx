@@ -1,16 +1,19 @@
 import { Box, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 
-import { FILTERS_VALUES } from '../products/constants/constants'
+import { SORT_VALUES } from '../products/constants/constants'
 
-const FILTERS = [FILTERS_VALUES.MostRecent, FILTERS_VALUES.LowestPrice, FILTERS_VALUES.HighestPrice]
+const SORT_OPTIONS = {
+    homescreen: [SORT_VALUES.LowestPrice, SORT_VALUES.HighestPrice],
+    history: [SORT_VALUES.NewestFirst, SORT_VALUES.OldestFirst],
+}
 
-function SortByFilter({ active, onChange }) {
+function SortByFilter({ active, onChange, screen }) {
     return (
         <Stack direction={'row'} spacing={6} alignItems={'center'} justifyContent={'center'}>
             <Text color={'gray.500'}>Sort by:</Text>
             <Stack direction={'row'} spacing={4}>
-                {FILTERS.map((filter) => (
+                {SORT_OPTIONS[screen].map((filter) => (
                     <Box
                         key={filter}
                         fontWeight={500}
@@ -20,7 +23,7 @@ function SortByFilter({ active, onChange }) {
                         paddingX={6}
                         paddingY={2}
                         cursor={'pointer'}
-                        onClick={() => onChange(filter)}
+                        onClick={() => onChange(active === filter ? '' : filter)}
                     >
                         {filter}
                     </Box>

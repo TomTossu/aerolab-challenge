@@ -28,7 +28,7 @@ function ProductCard({ product }) {
     return (
         <Card onPointerOver={() => setHover(true)} onPointerOut={() => setHover(false)}>
             <CardBody opacity={canBuy ? 1 : 0.5}>
-                <Image objectFit={'contain'} src={product.img.url} alt={`${product.category} - ${product.name}`}></Image>
+                <Image objectFit={'contain'} src={product.img.url} alt={`${product.category} - ${product.name}`} />
                 <Divider />
                 <Stack alignItems={'flex-start'} gap={0} paddingTop={4}>
                     <Text color={'gray.400'}> {product.category} </Text>

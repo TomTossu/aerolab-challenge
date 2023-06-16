@@ -6,7 +6,7 @@ import Grid from './Grid'
 import Count from './Count'
 import SortByFilter from './SortByFilter'
 import { Divider, Stack } from '@chakra-ui/react'
-import { FILTERS_VALUES, CATEGORIES_VALUES } from '../products/constants/constants'
+import { SORT_VALUES, CATEGORIES_VALUES } from '../products/constants/constants'
 import CategoryFilter from './CategoryFilter'
 import { useUser } from '../user/hooks'
 
@@ -22,7 +22,7 @@ function ProductList({ screen }) {
         return PRODUCT_OPTIONS[screen]
     }, [screen, user, products])
 
-    const [filter, setFilter] = useState(FILTERS_VALUES.MostRecent)
+    const [filter, setFilter] = useState()
     const [category, setCategory] = useState(CATEGORIES_VALUES.AllProducts)
     const [filteredProducts, setFilteredProducts] = useState(productsArray)
 
@@ -34,23 +34,32 @@ function ProductList({ screen }) {
         }
 
         switch (filter) {
-            case FILTERS_VALUES.HighestPrice: {
+            case SORT_VALUES.HighestPrice: {
                 newProductsArr = [...newProductsArr].sort((a, b) => b.cost - a.cost)
                 break
             }
 
-            case FILTERS_VALUES.LowestPrice: {
+            case SORT_VALUES.LowestPrice: {
                 newProductsArr = [...newProductsArr].sort((a, b) => a.cost - b.cost)
                 break
             }
 
-            case FILTERS_VALUES.MostRecent:
+            case SORT_VALUES.NewestFirst: {
+                newProductsArr = [...newProductsArr].sort((a, b) => new Date(b.createDate) - new Date(a.createDate))
+                break
+            }
+
+            case SORT_VALUES.OldestFirst: {
+                newProductsArr = [...newProductsArr].sort((a, b) => new Date(a.createDate) - new Date(b.createDate))
+                break
+            }
+
             default: {
                 newProductsArr = [...newProductsArr]
-                break
             }
         }
 
+        console.log(newProductsArr)
         setFilteredProducts(newProductsArr)
     }, [filter, category, productsArray])
 
@@ -66,10 +75,10 @@ function ProductList({ screen }) {
                 width={'100%'}
             >
                 <CategoryFilter onChange={setCategory} />
-                <SortByFilter active={filter} onChange={setFilter} />
+                <SortByFilter active={filter} onChange={setFilter} screen={screen} />
             </Stack>
             <Divider borderColor={'gray.300'} />
-            <Grid products={filteredProducts} />
+            <Grid products={filteredProducts} screen={screen} />
             <Count products={filteredProducts} />
         </Stack >
     )
